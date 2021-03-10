@@ -74,5 +74,54 @@ public class EvenOdd extends Application{
 		Application.launch(args);
 
 	}
+	public void setUpGUI() {
+		VBox timeScorePane = new VBox();
+		timeScorePane.getStyleClass().addAll("align-center");
+		timeScorePane.setId("timeScorePane");
+		timeLabel = new Label(timeRemaining + "");
+		timeLabel.setId("timeLabel");
+		timeLabel.getStyleClass().addAll("largeText");
+		bonusTimeLabel = new Label("");
+		bonusTimeLabel.setId("bonusTimelabel");
+		bonusTimeLabel.getStyleClass().addAll("smallText");
+		scoreLabel = new Label(finalScore + "");
+		scoreLabel.getStyleClass().addAll("mediumText");
+		scoreLabel.setId("scoreLabel");
+		timeScorePane.getChildren().addAll(timeLabel, bonusTimeLabel, scoreLabel);
+		
+		StackPane numberAreaPane = new StackPane();
+		numberAreaPane.setPrefHeight(200);
+		numberAreaPane.setId("numberAreaPane");
+		randNumLabel = new Label("Press any key to start");
+		randNumLabel.getStyleClass().addAll("mediumText");
+		randNumLabel.setId("randNumlabel");
+		numberAreaPane.getChildren().add(randNumLabel);
+		
+		Label evenLabel = new Label("	Even\n(right arrow)");
+		evenLabel.getStyleClass().addAll("oddEvenLabels");
+		StackPane evenPane = new StackPane();
+		evenPane.setPrefWidth(windowWidth/2.0);
+		evenPane.setId("evenPane");
+		evenPane.getChildren().add(evenLabel);
+		Label oddLabel = new Label("	Odd\n(left arrow)");
+		oddLabel.getStyleClass().addAll("oddEvenLabels");
+		StackPane oddPane = new StackPane();
+		oddPane.setPrefWidth(windowWidth/2.0);
+		oddPane.getStyleClass().addAll("odd-and-even-game");
+		oddPane.setId("oddPane");
+		oddPane.getChildren().add(oddLabel);
+		GridPane evenOddPane = new GridPane();
+		evenOddPane.addRow(0, oddPane, evenPane);
+		StackPane evenOddContainerPane = new StackPane();
+		evenOddContainerPane.getChildren().add(evenOddPane);
+		
+		mainGamePane = new GridPane();
+		mainGamePane.addColumn(0, timeScorePane, numberAreaPane, evenOddContainerPane);
+		gameScene = new Scene(mainGamePane);
+		gameScene.getStylesheets().add("style.css");
+		
+		
+		
+	}
 
 }
