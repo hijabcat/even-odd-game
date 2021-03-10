@@ -122,6 +122,10 @@ public class EvenOdd extends Application{
 		
 		
 		
+		gameOverPane = new VBox();
+		
+		
+		
 	}
 
 }
