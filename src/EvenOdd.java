@@ -123,9 +123,67 @@ public class EvenOdd extends Application{
 		
 		
 		gameOverPane = new VBox();
+		gameOverPane.getStyleClass().addAll("align-center");
+		gameOverPane.setId("gameOverPane");
+		VBox finalScorePane = new VBox();
+		finalScorePane.setId("finalScorePane");
+		finalScorePane.setPrefWidth(50);
+		Label gameOverLabel = new Label ("Game Over");
+		gameOverLabel.getStyleClass().addAll("largeText");
+		Label finalScoreLabel = new Label("Score: ");
+		finalScoreLabel.getStyleClass().addAll("mediumText");
+		actualFinalScore = new 	Label(finalScore + "");
+		actualFinalScore.getStyleClass().addAll("largeText");
+		Label highScoreLabel = new Label("High Score:");
+		highScoreLabel.getStyleClass().addAll("mediumText");
+		actualHighScore = new Label (highScore + "");
+		actualHighScore.getStyleClass().addAll("largeText");
+		finalScorePane.getChildren().addAll(finalScoreLabel, actualFinalScore, highScoreLabel
+				, actualHighScore);
+		VBox finalScorePaneContainer = new VBox();
+		finalScorePaneContainer.getChildren().addAll(finalScorePane);
+		finalScorePaneContainer.getStyleClass().addAll("align-center");
+		finalScorePaneContainer.setId("finalScorePaneContainer");
+		Label restartInstructionsLabel = new Label("Press SPACE to restart");
+		restartInstructionsLabel.getStyleClass().addAll("mediumText");
+		restartInstructionsLabel.setId("restartInstructionsLabel");
+		gameOverPane.getChildren().addAll(gameOverLabel, finalScorePaneContainer, 
+				restartInstructionsLabel);
+		gameOverScene = new Scene(gameOverPane);
+		gameOverScene.getStylesheets().add("style.css");
 		
+		
+		primaryStage.setTitle("Even Odd");
+		primaryStage.setScene(gameScene);
+		primaryStage.setScene(gameScene);		//sets the initial scene when the game is "waiting". Can easily be changed to gameOverScene to test GUI
+	    primaryStage.setHeight(windowHeight);
+	    primaryStage.setWidth(windowWidth);
+	    primaryStage.setResizable(false);		
+	    primaryStage.show();
+	    
+	    setUpAnimation();
+	    setUpKeyAssociation();
+	    setPaneFocus();
+	    
+		}
+	private void setUpAnimation() {
+		EventHandler<ActionEvent>timerEventHandler = (ActionEvent e) -> {
+			updateTimer();
+		};
+		//animation for countdown timer
+		timerAnimation = new Timeline(new KeyFrame(Duration.millis(MILLISEC), timerEventHandler));
+		timerAnimation.setCycleCount(Timeline.INDEFINITE);
+		
+		EventHandler<ActionEvent>bonusTimeEventHandler = (ActionEvent e) -> {
+			bonusTimeLabel.setText("+10 Sec");
+		};
+		EventHandler<ActionEvent>bonusTimeEventHandler2 = (ActionEvent e) -> {
+			bonusTimeLabel.setText("");
+		};
+		
+		bonusTimeAnimation = new Timeline(new KeyFrame (Duration.millis(0), bonusTimeEventHandler), new KeyFrame(Duration.millis(BONUS_TIME_MILLISEC), bonusTimeEventHandler2));
+		bonusTimeAnimation.setCycleCount(1);
+	}
 		
 		
 	}
-
-}
