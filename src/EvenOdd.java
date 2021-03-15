@@ -184,6 +184,74 @@ public class EvenOdd extends Application{
 		bonusTimeAnimation = new Timeline(new KeyFrame (Duration.millis(0), bonusTimeEventHandler), new KeyFrame(Duration.millis(BONUS_TIME_MILLISEC), bonusTimeEventHandler2));
 		bonusTimeAnimation.setCycleCount(1);
 	}
+	public void setUpKeyAssociation() {
+		gameOverPane.setOnKeyPressed(e -> {
+			identifyKeyPress(e);
+		});
+		mainGamePane.setOnKeyPressed(e -> {
+			identifyKeyPress(e);
+		});
+	}
+	public void identifyKeyPress(KeyEvent e) {
+		if(gameMode.equals("waiting")){
+			startAGame();
+		}
+		else if (gameMode.equals("running")) {
+			switch(e.getCode()) {
+				case LEFT:
+					currentUserGuess = "ODD";
+					isUserGuessCorrect();
+					break;
+				case RIGHT:
+					currentUserGuess ="Even";
+					isUserGuessCorrect();
+					break;
+			}
+		}
+		else if (gameMode.equals("over")) {
+			if(e.getCode()== KeyCode.SPACE) {
+				startAGame();
+			}
+		}
+			
+	}
+	public void startAGame() {
+		finalScore = 0;
+		bonusTimeCounter = 0;
+		timeRemaining = INITITAL_TIME_REMIANING;
+		
+		primaryStage.setScene(gameScene);
+		gameMode="running";
+		timerAnimation.play();
+		
+		scoreLabel.setText(finalScore + "");
+		randNumLabel.setId("randNumLabelRun");
+		displayNewNumber();
+	}
+	public void updateTimer() {
+		if(!gameMode.equals("over")) {
+			if(timeRemainig>0) {
+				timeRemaining -=.1;
+				timeRemaining = (Math.round(timeRemaining*10))/10.0;
+				timeLabel.setText(dFormatter.format(timeRemaining));
+			}
+			else {
+				gameMode = "over";
+				showGameOver();
+				
+			}
+				
+		}
+	}
+	public void displayNewNumber() {
+		int tempOldRand = randomNumber;
+		randomNumber = generator.nextInt(RANDOM_UPPER_BOUND)+ RANDOM_LOWER_BOUND;
+		while(randomNumber == tempOldRand) {
+			randomNumber = generator.nextInt(RANDOM_UPPER_BOUND);
+		}
+		randNumLabel.setText(randomNumber + "");
+		
+	}
 		
 		
 	}
