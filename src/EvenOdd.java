@@ -59,7 +59,7 @@ public class EvenOdd extends Application{
 	
 	private int finalScore=0;
 	private int highScore=0;
-	private int bonusTimerCounter=0;
+	private int bonusTimeCounter=0;
 
 	
 
@@ -230,7 +230,7 @@ public class EvenOdd extends Application{
 	}
 	public void updateTimer() {
 		if(!gameMode.equals("over")) {
-			if(timeRemainig>0) {
+			if(timeRemaining>0) {
 				timeRemaining -=.1;
 				timeRemaining = (Math.round(timeRemaining*10))/10.0;
 				timeLabel.setText(dFormatter.format(timeRemaining));
@@ -238,7 +238,6 @@ public class EvenOdd extends Application{
 			else {
 				gameMode = "over";
 				showGameOver();
-				
 			}
 				
 		}
@@ -251,6 +250,26 @@ public class EvenOdd extends Application{
 		}
 		randNumLabel.setText(randomNumber + "");
 		
+	}
+	public void isUserGuessCorrect() {
+		if(currentUserGuess.equals("EVEN")&&(randomNumber%2==0)) {
+			updateScore();
+			displayNewNumber();
+		}
+		else if(currentUserGuess.equals("ODD")&&(randomNumber%2!=0)) {
+			updateScore();
+			displayNewNumber();
+		}
+	}
+	public void updateScore() {
+		finalScore++;
+		scoreLabel.setText(finalScore + "");
+		bonusTimeCounter++;
+		if(bonusTimeCounter == 10) {
+			bonusTimeAnimation.play();
+			timeRemaining+=10;
+			bonusTimeCounter=0;
+		}
 	}
 		
 		
