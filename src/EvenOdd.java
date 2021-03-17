@@ -215,10 +215,17 @@ public class EvenOdd extends Application{
 		}
 			
 	}
+	public void setPaneFocus() {
+		if(gameMode.equals("over")) {
+			gameOverPane.requestFocus();
+		}else {
+			mainGamePane.requestFocus();
+		}
+	}
 	public void startAGame() {
 		finalScore = 0;
 		bonusTimeCounter = 0;
-		timeRemaining = INITITAL_TIME_REMIANING;
+		timeRemaining = INITIAL_TIME_REMAINING;
 		
 		primaryStage.setScene(gameScene);
 		gameMode="running";
@@ -271,6 +278,56 @@ public class EvenOdd extends Application{
 			bonusTimeCounter=0;
 		}
 	}
-		
-		
+	public void showGameOver() {
+		readWriteHighScore();
+		primaryStage.setScene(gameOverScene);
+		actualFinalScore.setText(finalScore + "");
+		setPaneFocus();
 	}
+	public void readWriteHighScore() {
+		boolean needToUpdateFile = false;
+		String scoresFileName = ".CONFIG_DO_NOT_MODIFY";
+		Path highScoreFilePath = Paths.get(scoresFileName);
+		File scoresFile = new File(scoresFileName);
+		
+		if (scoresFile.exists()) {
+			needToUpdateFile = false;
+			try (Scanner inputFile = new Scanner(scoresFile);){
+				highScore = inputFile.nextInt();
+				if(finalScore > highScore) {
+					highScore = finalScore;
+					needToUpdateFile = true;
+					}
+			}
+			catch(FileNotFoundException e) {
+				System.out.print("Error reading File");
+			}
+		}
+		else
+			highScore=finalScore;
+		
+		actualHighScore.setText(highScore + "");
+		
+		if(needToUpdateFile) {
+			if(scoresFile.exists()) {
+				try {
+					Files.delete(highScoreFilePath);
+				}
+				catch (IOException e) {
+					System.out.print("Error: Couldn't delete file before updating high score");
+				}
+			}
+			try (PrintWriter actualScoreFile = new PrintWriter(scoresFile);){
+				actualScoreFile.println(highScore);
+				Files.setAttribute(highScoreFilePath, "dos:hidden", true);
+			}
+			catch(FileNotFoundException e) {
+				System.out.println("Error saving high score, FileNotFoundException");
+			} catch (IOException e) {
+				System.out.println("Invalid permissions when saving hidden file");
+			}
+		}
+	}
+		
+		
+}
