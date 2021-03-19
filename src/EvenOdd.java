@@ -30,7 +30,7 @@ public class EvenOdd extends Application{
 	private final int windowHeight = 440;
 	private Stage primaryStage;
 	private Scene gameScene;
-	private Scene gameOverScene;
+	private Scene gameOverScene;			// scene display the score
 	private Label timeLabel;
 	private VBox gameOverPane;
 	private GridPane mainGamePane;
@@ -41,7 +41,7 @@ public class EvenOdd extends Application{
 	private Label actualHighScore;
 	
 	
-	private static final double MILLISEC = 100;
+	private static final double MILLISEC = 100;						
 	private Timeline timerAnimation;
 	private static final double BONUS_TIME_MILLISEC = 2000;
 	private Timeline bonusTimeAnimation;
@@ -65,8 +65,8 @@ public class EvenOdd extends Application{
 
 	@Override
 	public void start(Stage paramStage) throws Exception {
-		primaryStage=paramStage;
-		setUpGUI();
+		primaryStage=paramStage;			
+		setUpGUI();					// call method which creates the GUI
 		
 	}
 	
@@ -161,30 +161,30 @@ public class EvenOdd extends Application{
 	    primaryStage.setResizable(false);		
 	    primaryStage.show();
 	    
-	    setUpAnimation();
+	    setUpAnimation();					// methods which creates animation 
 	    setUpKeyAssociation();
 	    setPaneFocus();
 	    
 		}
-	private void setUpAnimation() {
-		EventHandler<ActionEvent>timerEventHandler = (ActionEvent e) -> {
+	private void setUpAnimation() {								// sets up animation timelines
+		EventHandler<ActionEvent>timerEventHandler = (ActionEvent e) -> {			// creates a handler 
 			updateTimer();
 		};
 		//animation for countdown timer
 		timerAnimation = new Timeline(new KeyFrame(Duration.millis(MILLISEC), timerEventHandler));
 		timerAnimation.setCycleCount(Timeline.INDEFINITE);
 		
-		EventHandler<ActionEvent>bonusTimeEventHandler = (ActionEvent e) -> {
+		EventHandler<ActionEvent>bonusTimeEventHandler = (ActionEvent e) -> {		// handler to add bonus meesage
 			bonusTimeLabel.setText("+10 Sec");
 		};
-		EventHandler<ActionEvent>bonusTimeEventHandler2 = (ActionEvent e) -> {
+		EventHandler<ActionEvent>bonusTimeEventHandler2 = (ActionEvent e) -> {		// handler to set back text to void
 			bonusTimeLabel.setText("");
 		};
 		
 		bonusTimeAnimation = new Timeline(new KeyFrame (Duration.millis(0), bonusTimeEventHandler), new KeyFrame(Duration.millis(BONUS_TIME_MILLISEC), bonusTimeEventHandler2));
 		bonusTimeAnimation.setCycleCount(1);
 	}
-	public void setUpKeyAssociation() {
+	public void setUpKeyAssociation() {				// calls the identifyKeyPress in specific pane.
 		gameOverPane.setOnKeyPressed(e -> {
 			identifyKeyPress(e);
 		});
@@ -198,32 +198,32 @@ public class EvenOdd extends Application{
 		}
 		else if (gameMode.equals("running")) {
 			switch(e.getCode()) {
-				case LEFT:
+				case LEFT:							// left arrow key and call method to check if its correct
 					currentUserGuess = "ODD";
 					isUserGuessCorrect();
-					break;
-				case RIGHT:
-					currentUserGuess ="Even";
+					break;	
+				case RIGHT:							// right arrow key and call method to check if its correct
+					currentUserGuess ="EVEN";
 					isUserGuessCorrect();
 					break;
 			}
 		}
-		else if (gameMode.equals("over")) {
+		else if (gameMode.equals("over")) {			// if game is over it can restart by pressing space
 			if(e.getCode()== KeyCode.SPACE) {
 				startAGame();
 			}
 		}
 			
 	}
-	public void setPaneFocus() {
-		if(gameMode.equals("over")) {
+	public void setPaneFocus() {					// sets the focus to the correct pane
+		if(gameMode.equals("over")) {				// if game is over, gameoverpane should be the focus
 			gameOverPane.requestFocus();
 		}else {
 			mainGamePane.requestFocus();
 		}
 	}
 	public void startAGame() {
-		finalScore = 0;
+		finalScore = 0;								// resets score and timer
 		bonusTimeCounter = 0;
 		timeRemaining = INITIAL_TIME_REMAINING;
 		
@@ -233,23 +233,23 @@ public class EvenOdd extends Application{
 		
 		scoreLabel.setText(finalScore + "");
 		randNumLabel.setId("randNumLabelRun");
-		displayNewNumber();
+		displayNewNumber();						// calls method which picks a new number and starts the game
 	}
 	public void updateTimer() {
-		if(!gameMode.equals("over")) {
-			if(timeRemaining>0) {
-				timeRemaining -=.1;
+		if(!gameMode.equals("over")) {			
+			if(timeRemaining>0) {									// execute while>0
+				timeRemaining -=.1;									//decrement by .01 for every 100th of second
 				timeRemaining = (Math.round(timeRemaining*10))/10.0;
-				timeLabel.setText(dFormatter.format(timeRemaining));
+				timeLabel.setText(dFormatter.format(timeRemaining));		// update the  time remaining, and do string concatenation
 			}
-			else {
-				gameMode = "over";
-				showGameOver();
+			else {															// game is over once time remaining is 0
+				gameMode = "over";											
+				showGameOver();												// call method which switch to game over scene
 			}
 				
 		}
 	}
-	public void displayNewNumber() {
+	public void displayNewNumber() {								// creates a new random number and must be different from previous
 		int tempOldRand = randomNumber;
 		randomNumber = generator.nextInt(RANDOM_UPPER_BOUND)+ RANDOM_LOWER_BOUND;
 		while(randomNumber == tempOldRand) {
@@ -258,27 +258,27 @@ public class EvenOdd extends Application{
 		randNumLabel.setText(randomNumber + "");
 		
 	}
-	public void isUserGuessCorrect() {
-		if(currentUserGuess.equals("EVEN")&&(randomNumber%2==0)) {
-			updateScore();
-			displayNewNumber();
+	public void isUserGuessCorrect() {							// checks if the keypress matches even/odd, update the score & display a new number. Ignores all key except left/right arrow
+		if(currentUserGuess.equals("EVEN")&&(randomNumber%2==0)) {			// checks if the number is even & their guess is correct
+			updateScore();													// updates the score 
+			displayNewNumber();												// display a new random number
 		}
-		else if(currentUserGuess.equals("ODD")&&(randomNumber%2!=0)) {
+		else if(currentUserGuess.equals("ODD")&&(randomNumber%2!=0)) {		// checks if the number is odd & their guess is correct
 			updateScore();
 			displayNewNumber();
 		}
 	}
-	public void updateScore() {
+	public void updateScore() {							// increase the score & also add 10 seconds more if the plaeyr gets 10 corrrect answers
 		finalScore++;
 		scoreLabel.setText(finalScore + "");
 		bonusTimeCounter++;
 		if(bonusTimeCounter == 10) {
-			bonusTimeAnimation.play();
+			bonusTimeAnimation.play();					// display a bonus message 
 			timeRemaining+=10;
 			bonusTimeCounter=0;
 		}
 	}
-	public void showGameOver() {
+	public void showGameOver() {					// shows the game over scene and calls the method readWriteHighScore
 		readWriteHighScore();
 		primaryStage.setScene(gameOverScene);
 		actualFinalScore.setText(finalScore + "");
