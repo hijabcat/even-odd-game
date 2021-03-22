@@ -8,13 +8,14 @@
 }
 .mediumText{
 	-fx-font-size: 30px;
+	
 }
 .smallText{
 	-fx-font-size: 20px;
 }
 
 #timeScorePane{
-	-fx-background-color:#fcff00;
+	-fx-background-color:#dbe089;
 }
 #timelabel{
 	
@@ -27,16 +28,18 @@
 	
 }
 #numberAreaPane{
-	-fx-background-color:black;
+	-fx-background-color:#fcda95;
+	
 }
 #randNumLabel{
 	-fx-background-color:darkblue;
 	-fx-background-radius:15px;
 	-fx-padding: 0 10px;
-	-fx-text-fill: lime;
+	-fx-text-fill: black;
+	
 }
 #randNumLabelRun{
-	-fx-text-fill:lime;
+	-fx-text-fill:black;
 	-fx-font-size:120px;
 }
 .odd-even-pane{

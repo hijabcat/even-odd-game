@@ -267,6 +267,10 @@ public class EvenOdd extends Application{
 			updateScore();
 			displayNewNumber();
 		}
+		else {				// if the user enters the wrong answer, the game will end
+			gameMode ="over";
+			showGameOver();
+		}
 	}
 	public void updateScore() {							// increase the score & also add 10 seconds more if the plaeyr gets 10 corrrect answers
 		finalScore++;
