@@ -244,7 +244,7 @@ public class EvenOdd extends Application{
 			}
 			else {															// game is over once time remaining is 0
 				gameMode = "over";											
-				showGameOver();												// call method which switch to game over scene
+				showGameOver();												// call method which switch to game over scene.
 			}
 				
 		}
