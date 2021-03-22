@@ -289,7 +289,7 @@ public class EvenOdd extends Application{
 		setPaneFocus();
 	}
 	public void readWriteHighScore() {
-		boolean needToUpdateFile = false;
+		boolean needToUpdateFile = true;
 		String scoresFileName = ".CONFIG_DO_NOT_MODIFY";
 		Path highScoreFilePath = Paths.get(scoresFileName);
 		File scoresFile = new File(scoresFileName);
