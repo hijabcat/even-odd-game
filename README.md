@@ -1,10 +1,6 @@
 <h1>Even Odd Game</h1>
 <p>A simple even and odd  game where user only need to hit the left and right arrow key to match the correct answer</p>
 <h2>Demo</h2>
-
-https://user-images.githubusercontent.com/60495751/113540533-eb86f480-9612-11eb-95d7-fe9cb5a62780.mp4
-
-
 <ul>
   <li>Random number appears and you need to identify the correct answer </li>
   <li>The base game is 10 seconds, but if you get 10 correct answer, youll get + 10 sec </li>
